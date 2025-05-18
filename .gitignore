@@ -1,7 +1,9 @@
-# Ignore everything by default
+# 1. Ignore everything...
 *
 
-# But do NOT ignore these specific files and directories
-!pubspec.yaml
-!pubspec.lock
-!lib/
+# 2. But do NOT ignore these specific files and directories:
+!/.gitignore       # so Git keeps this file itself
+!/pubspec.yaml
+!/pubspec.lock
+!/lib/              # allow the lib folder
+!/lib/**           # allow all files under lib/
