@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../model/todo_data.dart';
+import '../provider/todolistprovider.dart';
 
 class AddToDoScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -54,8 +55,8 @@ class AddToDoScreen extends StatelessWidget {
   void _onSave(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final todo = ToDoItem(DateTime.now().toString(), _title, _notes);
-      Navigator.pop(context, todo);
+      context.read<ToDoList>().addTodo(_title, _notes);
+      Navigator.pop(context);
     }
   }
 }
