@@ -1,9 +1,14 @@
-# 1. Ignore everything...
+# ignore everything
 *
 
-# 2. But do NOT ignore these specific files and directories:
-!/.gitignore       # so Git keeps this file itself
+# but allow directories so Git can recurse
+!*/
+
+# whitelist your source trees
+!/lib/
+!/lib/**
+
+# whitelist pubspecs and .gitignore itself
 !/pubspec.yaml
 !/pubspec.lock
-!/lib/              # allow the lib folder
-!/lib/**/*           # allow all files under lib/
+!/.gitignore
