@@ -1,0 +1,12 @@
+# 1) Ignore everything at the root
+/*
+
+# 2) But allow directories (so Git can recurse into them)
+!*/
+
+# 3) Un-ignore exactly what you want
+!/.gitignore
+!/lib/
+!/lib/**
+!/pubspec.yaml
+!/pubspec.lock
