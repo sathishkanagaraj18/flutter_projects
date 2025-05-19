@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/model/todo_data.dart';
 
 import '../provider/todolistprovider.dart';
 
@@ -7,6 +8,10 @@ class AddToDoScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String _title = "";
   String _notes = "";
+  ToDoItem? toDoItem;
+  final String fromScreen;
+
+  AddToDoScreen({super.key, required this.fromScreen, this.toDoItem});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,7 @@ class AddToDoScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
+              initialValue: toDoItem != null ? toDoItem!.title : "",
               decoration: const InputDecoration(labelText: 'Title'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -29,6 +35,7 @@ class AddToDoScreen extends StatelessWidget {
               },
             ),
             TextFormField(
+              initialValue: toDoItem != null ? toDoItem!.notes : "",
               decoration: const InputDecoration(labelText: 'Notes'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -44,7 +51,7 @@ class AddToDoScreen extends StatelessWidget {
               onPressed: () {
                 _onSave(context);
               },
-              child: Text("Save"),
+              child: Text(fromScreen.contains("add") ? "Save" : "Update"),
             ),
           ],
         ),
@@ -55,7 +62,12 @@ class AddToDoScreen extends StatelessWidget {
   void _onSave(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      context.read<ToDoList>().addTodo(_title, _notes);
+      if (fromScreen.contains("add")) {
+        context.read<ToDoList>().addTodo(_title, _notes);
+      } else {
+        String id = toDoItem != null ? toDoItem!.id : "";
+        context.read<ToDoList>().updateTodo(id, _title, _notes);
+      }
       Navigator.pop(context);
     }
   }

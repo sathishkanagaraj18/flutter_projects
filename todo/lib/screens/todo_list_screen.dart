@@ -15,7 +15,7 @@ class ToDoListScreen extends StatelessWidget {
       appBar: AppBar(title: Text("To Do List"), centerTitle: true),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _onAddToDo(context);
+          _onAddToDo(context, "add");
         },
         child: Icon(Icons.add),
       ),
@@ -28,15 +28,27 @@ class ToDoListScreen extends StatelessWidget {
                   return ListTile(
                     title: Text(todoList[index].title),
                     subtitle: Text(todoList[index].notes),
+                    onTap: () {
+                      _onAddToDo(context, "update", item: todoList[index]);
+                    },
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        context.read<ToDoList>().delete(todoList[index].id);
+                      },
+                    ),
                   );
                 },
               ),
     );
   }
 
-  void _onAddToDo(BuildContext context) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => AddToDoScreen()));
+  void _onAddToDo(BuildContext context, String fromScreen, {ToDoItem? item}) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder:
+            (context) => AddToDoScreen(fromScreen: fromScreen, toDoItem: item),
+      ),
+    );
   }
 }

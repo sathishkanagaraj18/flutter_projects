@@ -11,4 +11,15 @@ class ToDoList extends ChangeNotifier {
     _toDoItemsList.add(todo);
     notifyListeners();
   }
+
+  void updateTodo(String id, String updatedTitle, String updatedNotes) {
+    final index = _toDoItemsList.indexWhere((t) => t.id == id);
+    _toDoItemsList[index] = ToDoItem(id, updatedTitle, updatedNotes);
+    notifyListeners();
+  }
+
+  void delete(String id) {
+    _toDoItemsList.removeWhere((t) => t.id == id);
+    notifyListeners();
+  }
 }
